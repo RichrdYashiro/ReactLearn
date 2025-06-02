@@ -33,6 +33,7 @@ function App() {
 				</p>
 			</div>
 			//декларативный
+			<p className="read-the-docs">{new Date().getFullYear()}</p>
 		</>
 	);
 }
