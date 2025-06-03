@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Project1_1 from "./project/project-1/project-1-1/project1_1";
+import Project1_2 from "./project/project-1/project-1-2/project1_2";
 import styles from "./styles/app.module.css";
 
 function App() {
@@ -8,6 +9,11 @@ function App() {
 			id: 1,
 			name: "Задание 1.1: Динамический список",
 			component: <Project1_1 />,
+		},
+		{
+			id: 2,
+			name: "Задание 1.2: Варка пельмешек",
+			component: <Project1_2 />,
 		},
 	]);
 
