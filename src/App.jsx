@@ -1,42 +1,77 @@
-import { createElement, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
-
-//декларативный
+import "./index.css";
+import styles from "./app.module.css";
+import { useState } from "react";
 function App() {
-	//императивный
-	const [count, setCount] = useState(0);
-	//декларативный
-	const currentYear = createElement(
-		"p",
-		{ className: "read-the-docs" },
-		`${new Date().getFullYear()}`
-	);
+	const [value, setValue] = useState("");
+	const [list, setList] = useState([]);
+	const [error, setError] = useState("");
+	let isValueVaild = value.length >= 3;
+
+	function onInputButtonClick() {
+		let promptValue = prompt();
+		console.log(promptValue);
+		setValue(promptValue);
+		if (promptValue.length < 3) {
+			setError("Введенное значение должно содержать минимум 3 символа");
+		} else {
+			setError("");
+		}
+	}
+
+	function onAddButtonClick() {
+		if (isValueVaild) {
+			const newItem = {
+				id: Date.now(),
+				value: value,
+			};
+			let updatedList = [...list, newItem];
+			setList(updatedList);
+			setValue("");
+			setError("");
+		}
+	}
 	return (
 		<>
-			<div>
-				<a href="https://vite.dev" target="_blank">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img
-						src={reactLogo}
-						className="logo react"
-						alt="React logo"
-					/>
-				</a>
-			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				//императивный
-				<button onClick={() => setCount((count) => count + 1)}>
-					count is {count}
-				</button>
-				<p>
-					Edit <code>src/App.jsx</code> and save to test HMR
+			<div className={styles.app}>
+				<h1 className={styles["page-heading"]}>Ввод значения</h1>
+				<p className={styles["no-margin-text"]}>
+					Текущее значение <code>value</code>: "
+					<output className={styles["current-value"]}>{value}</output>
+					"
 				</p>
-				{currentYear}
+				{error && <div className={styles.error}>{error}</div>}
+
+				<div className={styles["buttons-container"]}>
+					<button
+						className={styles.button}
+						onClick={onInputButtonClick}
+					>
+						Ввести новое
+					</button>
+					<button
+						className={styles.button}
+						disabled={!isValueVaild}
+						onClick={onAddButtonClick}
+					>
+						Добавить в список
+					</button>
+				</div>
+				<div className={styles["list-container"]}>
+					<h2 className={styles["list-heading"]}>Список:</h2>
+					{list.length === 0 && (
+						<p className={styles["no-margin-text"]}>
+							Нет добавленных элементов
+						</p>
+					)}
+
+					<ul className={styles.list}>
+						{list.map(({ id, value }) => (
+							<li className={styles["list-item"]} key={id}>
+								{value}
+							</li>
+						))}
+					</ul>
+				</div>
 			</div>
 		</>
 	);
