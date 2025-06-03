@@ -1,79 +1,38 @@
-import "./index.css";
-import styles from "./app.module.css";
 import { useState } from "react";
+import Project1_1 from "./project/project-1/project-1-1/project1_1";
+import styles from "./styles/app.module.css";
+
 function App() {
-	const [value, setValue] = useState("");
-	const [list, setList] = useState([]);
-	const [error, setError] = useState("");
-	let isValueVaild = value.length >= 3;
+	const [tasks] = useState([
+		{
+			id: 1,
+			name: "Задание 1.1: Динамический список",
+			component: <Project1_1 />,
+		},
+	]);
 
-	function onInputButtonClick() {
-		let promptValue = prompt();
-		console.log(promptValue);
-		setValue(promptValue);
-		if (promptValue.length < 3) {
-			setError("Введенное значение должно содержать минимум 3 символа");
-		} else {
-			setError("");
-		}
-	}
+	const [currentTask, setCurrentTask] = useState(0);
 
-	function onAddButtonClick() {
-		if (isValueVaild) {
-			const newItem = {
-				id: Date.now(),
-				value: value,
-			};
-			let updatedList = [...list, newItem];
-			setList(updatedList);
-			setValue("");
-			setError("");
-		}
-	}
 	return (
-		<>
-			<div className={styles.app}>
-				<h1 className={styles["page-heading"]}>Ввод значения</h1>
-				<p className={styles["no-margin-text"]}>
-					Текущее значение <code>value</code>: "
-					<output className={styles["current-value"]}>{value}</output>
-					"
-				</p>
-				{error && <div className={styles.error}>{error}</div>}
+		<div className={styles.container}>
+			<h1>Мои React задания</h1>
 
-				<div className={styles["buttons-container"]}>
+			<nav className={styles.nav}>
+				{tasks.map((task, index) => (
 					<button
-						className={styles.button}
-						onClick={onInputButtonClick}
+						key={task.id}
+						className={currentTask === index ? styles.active : ""}
+						onClick={() => setCurrentTask(index)}
 					>
-						Ввести новое
+						{task.name}
 					</button>
-					<button
-						className={styles.button}
-						disabled={!isValueVaild}
-						onClick={onAddButtonClick}
-					>
-						Добавить в список
-					</button>
-				</div>
-				<div className={styles["list-container"]}>
-					<h2 className={styles["list-heading"]}>Список:</h2>
-					{list.length === 0 && (
-						<p className={styles["no-margin-text"]}>
-							Нет добавленных элементов
-						</p>
-					)}
+				))}
+			</nav>
 
-					<ul className={styles.list}>
-						{list.map(({ id, value }) => (
-							<li className={styles["list-item"]} key={id}>
-								{value}
-							</li>
-						))}
-					</ul>
-				</div>
+			<div className={styles.taskContainer}>
+				{tasks[currentTask].component}
 			</div>
-		</>
+		</div>
 	);
 }
 
