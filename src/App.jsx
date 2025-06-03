@@ -1,44 +1,38 @@
-import { createElement, useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { useState } from "react";
+import Project1_1 from "./project/project-1/project-1-1/project1_1";
+import styles from "./styles/app.module.css";
 
-//декларативный
 function App() {
-	//императивный
-	const [count, setCount] = useState(0);
-	//декларативный
-	const currentYear = createElement(
-		"p",
-		{ className: "read-the-docs" },
-		`${new Date().getFullYear()}`
-	);
+	const [tasks] = useState([
+		{
+			id: 1,
+			name: "Задание 1.1: Динамический список",
+			component: <Project1_1 />,
+		},
+	]);
+
+	const [currentTask, setCurrentTask] = useState(0);
+
 	return (
-		<>
-			<div>
-				<a href="https://vite.dev" target="_blank">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img
-						src={reactLogo}
-						className="logo react"
-						alt="React logo"
-					/>
-				</a>
+		<div className={styles.container}>
+			<h1>Мои React задания</h1>
+
+			<nav className={styles.nav}>
+				{tasks.map((task, index) => (
+					<button
+						key={task.id}
+						className={currentTask === index ? styles.active : ""}
+						onClick={() => setCurrentTask(index)}
+					>
+						{task.name}
+					</button>
+				))}
+			</nav>
+
+			<div className={styles.taskContainer}>
+				{tasks[currentTask].component}
 			</div>
-			<h1>Vite + React</h1>
-			<div className="card">
-				//императивный
-				<button onClick={() => setCount((count) => count + 1)}>
-					count is {count}
-				</button>
-				<p>
-					Edit <code>src/App.jsx</code> and save to test HMR
-				</p>
-				{currentYear}
-			</div>
-		</>
+		</div>
 	);
 }
 
