@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Project1_1 from "./project/project-1/project-1-1/project1_1";
 import Project1_2 from "./project/project-1/project-1-2/project1_2";
+import Project1_3 from "./project/project-1/project-1-3/project1_3";
 import styles from "./styles/app.module.css";
 
 function App() {
@@ -14,6 +15,11 @@ function App() {
 			id: 2,
 			name: "Задание 1.2: Варка пельмешек",
 			component: <Project1_2 />,
+		},
+		{
+			id: 3,
+			name: "Задание 1.3: Калькулятор",
+			component: <Project1_3 />,
 		},
 	]);
 
