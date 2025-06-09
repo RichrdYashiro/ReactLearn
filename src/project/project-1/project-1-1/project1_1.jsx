@@ -5,7 +5,6 @@ export default function Project1_1() {
 	const [value, setValue] = useState("");
 	const [list, setList] = useState([]);
 	const [error, setError] = useState("");
-	let isValueVaild = value.length >= 3;
 
 	function onInputButtonClick() {
 		let promptValue = prompt();
@@ -19,13 +18,13 @@ export default function Project1_1() {
 	}
 
 	function onAddButtonClick() {
-		if (isValueVaild) {
+		let isValueValid = value.length >= 3;
+		if (isValueValid) {
 			const newItem = {
 				id: Date.now(),
 				value: value,
 			};
-			let updatedList = [...list, newItem];
-			setList(updatedList);
+			setList([...list, newItem]);
 			setValue("");
 			setError("");
 		}
@@ -50,7 +49,7 @@ export default function Project1_1() {
 					</button>
 					<button
 						className={styles.button}
-						disabled={!isValueVaild}
+						disabled={value.length < 3}
 						onClick={onAddButtonClick}
 					>
 						Добавить в список
@@ -65,9 +64,9 @@ export default function Project1_1() {
 					)}
 
 					<ul className={styles.list}>
-						{list.map(({ id, value }) => (
-							<li className={styles["list-item"]} key={id}>
-								{value}
+						{list.map((item) => (
+							<li className={styles["list-item"]} key={item.id}>
+								{item.value}
 							</li>
 						))}
 					</ul>
